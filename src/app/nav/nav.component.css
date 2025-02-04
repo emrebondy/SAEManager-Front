@@ -1,0 +1,44 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+}
+
+.navbar-black {
+    background-color: black;
+}
+
+.navbar-gray {
+    background-color: rgb(54, 54, 54);
+}
+
+.navbar li {
+    display: inline;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 15px;
+}
+
+.navbar a:hover {
+    color: #999;
+}
+
+.center {
+    position: flex;
+    left: 50%;
+    transform: translateX(-50%);
+}
