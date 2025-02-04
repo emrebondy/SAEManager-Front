@@ -27,30 +27,31 @@
             <form [formGroup]="accountCreationForm" (ngSubmit)="handleSubmit()" class="w-100">
                 <div class="mb-3">
                     <div class="input-group">
-                        <span class="input-group-text bg-light text-muted">Nom</span>
-                        <input type="text" formControlName="lastname" class="form-control" required>
+                        <span class="input-group-text bg-light text-muted"></span>
+                        <input type="text" formControlName="lastname" class="form-control" placeholder="Nom" required>
                     </div>
                 </div>
             
                 <div class="mb-3">
                     <div class="input-group">
-                        <span class="input-group-text bg-light text-muted">Prénom</span>
-                        <input type="text" formControlName="firstname" class="form-control" required>
+                        <span class="input-group-text bg-light text-muted"></span>
+                        <input type="text" formControlName="firstname" class="form-control" placeholder="Prénom" required>
                     </div>
                 </div>
-            
+
                 <div class="mb-3">
                     <div class="input-group">
-                        <span class="input-group-text bg-light text-muted">Email universitaire</span>
-                        <input type="email" formControlName="email" class="form-control" required>
+                        <span class="input-group-text bg-light text-muted"></span>
+                        <input type="email" formControlName="email" class="form-control" placeholder="Email universitaire" required>
                         <span class="input-group-text bg-light">&#64;iut.univ-paris8.fr</span>
                     </div>
                 </div>
+                
             
                 <div class="mb-3">
                     <div class="input-group">
-                        <span class="input-group-text bg-light text-muted">Mot de passe</span>
-                        <input type="password" formControlName="password" class="form-control" required>
+                        <span class="input-group-text bg-light text-muted"></span>
+                        <input type="password" formControlName="password" class="form-control" placeholder="Mot de passe"  required>
                     </div>
                 </div>
             
