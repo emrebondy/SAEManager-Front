@@ -4,10 +4,11 @@ import { NavComponent } from './nav/nav.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavComponent],
+  imports: [RouterOutlet, NavComponent,CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

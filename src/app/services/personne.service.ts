@@ -15,6 +15,7 @@ export class PersonneService {
 
   // 🔹 Envoyer un formulaire (ModelePersonne) vers le backend
   createPersonne(personne: ModelePersonne): Observable<EntitiesPersonne> {
+    console.log(personne)
     const personneToSend = this.mapper.toDomain(personne); // Convertir en format backend
     return this.http.post<EntitiesPersonne>(this.apiUrl, personneToSend);
   }

@@ -1,0 +1,57 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* Section gauche avec image */
+.illustration-container {
+    background: linear-gradient(to bottom right, #FF758C, #FF7EB3);
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 15px 0 0 15px;
+}
+
+.illustration-container img {
+    max-width: 80%;
+}
+
+/* Section droite avec le formulaire */
+.form-container {
+    width: 50%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.form-container p {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.input-group-text {
+    background-color: #f0f0f0;
+}
+
+.btn-primary {
+    background-color: #3B82F6;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.btn-primary:hover {
+    background-color: #2563EB;
+}
