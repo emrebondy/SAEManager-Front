@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {map, Observable} from 'rxjs';
 import { EntitiesPersonne } from '../../entities/EntitiesPersonne';
 import { ModelePersonne } from '../../modele/ModelePersonne';
 import { PersonneMapper } from '../../mapper/MapperPersonne';
@@ -18,5 +18,17 @@ export class PersonneService {
     console.log(personne)
     const personneToSend = this.mapper.toDomain(personne); // Convertir en format backend
     return this.http.post<EntitiesPersonne>(this.apiUrl, personneToSend);
+  }
+
+  getProfs(): Observable<EntitiesPersonne[]> {
+    return this.http.get<ModelePersonne[]>(this.apiUrl+"/prof").pipe(
+      map((data) => this.mapper.toDomainList(data))
+    );
+  }
+
+  getEtudiants(): Observable<EntitiesPersonne[]> {
+    return this.http.get<ModelePersonne[]>(this.apiUrl+"/etudiant").pipe(
+      map((data) => this.mapper.toDomainList(data))
+    )
   }
 }
