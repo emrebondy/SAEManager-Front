@@ -18,8 +18,8 @@ export class InscriptionComponent {
     lastname : new FormControl(''),
     firstname : new FormControl(''),
     password : new FormControl(''),
-    email : new FormControl(''),    
-    
+    email : new FormControl(''),
+
   })
 
   constructor(private personneService: PersonneService){}
@@ -27,25 +27,23 @@ export class InscriptionComponent {
   handleSubmit(){
     if (this.accountCreationForm.valid) {
       const personne: ModelePersonne = {
+        idPersonne: 0,
         nom: this.accountCreationForm.value.lastname || '',
         prenom: this.accountCreationForm.value.firstname || '',
         password: this.accountCreationForm.value.password || '',
-        email: this.accountCreationForm.value.email + '@iut.univ-paris8.fr' || ''    
+        email: this.accountCreationForm.value.email + '@iut.univ-paris8.fr' || ''
       };
-  
+
       this.personneService.createPersonne(personne).subscribe(
         response => {
           console.log('Personne créée avec succès', response);
-          // Ajouter ici une redirection ou un message de succès
         },
         error => {
           console.error('Erreur lors de la création de la personne', error);
-          // Gérer les erreurs ici, ex: affichage d'un message d'erreur
         }
       );
     } else {
       console.warn('Le formulaire est invalide');
-      // Ajouter ici un message pour informer l'utilisateur
     }
   }
 

@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
-import { EntitiesPersonne } from '../../entities/EntitiesPersonne';
-import { ModelePersonne } from '../../modele/ModelePersonne';
-import { PersonneMapper } from '../../mapper/MapperPersonne';
+import {EntitiesPersonne} from '../../entities/EntitiesPersonne';
+import {ModelePersonne} from '../../modele/ModelePersonne';
+import {PersonneMapper} from '../../mapper/MapperPersonne';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,8 @@ import { PersonneMapper } from '../../mapper/MapperPersonne';
 export class PersonneService {
   private apiUrl = 'http://localhost:8080/personne';  // 🔹 Remplace par l'URL de ton backend
 
-  constructor(private http: HttpClient, private mapper: PersonneMapper) {}
+  constructor(private http: HttpClient, private mapper: PersonneMapper) {
+  }
 
   // 🔹 Envoyer un formulaire (ModelePersonne) vers le backend
   createPersonne(personne: ModelePersonne): Observable<EntitiesPersonne> {
@@ -21,14 +22,23 @@ export class PersonneService {
   }
 
   getProfs(): Observable<EntitiesPersonne[]> {
-    return this.http.get<ModelePersonne[]>(this.apiUrl+"/prof").pipe(
+    return this.http.get<ModelePersonne[]>(this.apiUrl + "/prof").pipe(
       map((data) => this.mapper.toDomainList(data))
     );
   }
 
   getEtudiants(): Observable<EntitiesPersonne[]> {
-    return this.http.get<ModelePersonne[]>(this.apiUrl+"/etudiant").pipe(
+    return this.http.get<ModelePersonne[]>(this.apiUrl + "/etudiant").pipe(
       map((data) => this.mapper.toDomainList(data))
     )
   }
+
+  ajouterProfs(listeIds: number[]): Observable<string> {
+    return this.http.put<string>(this.apiUrl + "/prof/ajouterProf", listeIds,
+      {responseType: 'text' as 'json'} // 🔹 Indique qu'on attend une réponse en texte brut
+    );
+  }
+
 }
+
+

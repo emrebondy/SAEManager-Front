@@ -1,4 +1,5 @@
 export interface EntitiesPersonne {
+    idPersonne: number;
     nom: string;
     prenom: string;
     password: string;

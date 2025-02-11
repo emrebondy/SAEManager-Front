@@ -3,28 +3,42 @@
     <div class="card-general shadow bg-white rounded">
         <div class="d-flex flex-column">
             <div class="d-flex flex-row h-50 m-3 p-3 w-100">
+
                 <div class="d-flex flex-column m-3 bg-light border rounded w-50">
-                    <h3 class="m-3 fw-bold">Ajoutez une ou des personne en tant que professeur</h3>
-                    <form action="index.php?module=paneladmin&action=ajouterProfesseur" class="m-3" method="POST">
+                    <h3 class="m-3 fw-bold">Ajoutez une ou des personnes en tant que professeur</h3>
+
+                    <form (submit)="validerSelection()" class="m-3">
                         <div class="d-flex flex-column text-center">
                             <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" id="dropdownButton"
+                                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button"
+                                        id="dropdownButton"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                     Rechercher des personnes non professeurs
                                 </button>
+
                                 <div class="dropdown-menu p-3 gap-1 w-100" id="dropdownContent"
                                      style="max-height: 400px; overflow-y: auto;">
-                                    <input type="text" class="form-control mb-2" id="searchInput" placeholder="Rechercher...">
-                                    <!-- Les éléments de la liste déroulante -->
-                                    $inputs
+                                    <input type="text" class="form-control mb-2" [(ngModel)]="searchInput" name="searchInput" (input)="filtrerEtudiants()" placeholder="Rechercher...">
+
+                                    <!-- Liste des étudiants filtrés -->
+                                    <ng-container *ngFor="let etudiant of etudiantsFiltres">
+                                        <div class="form-check personnes dropdown-item">
+                                            <input class="form-check-input" type="checkbox" [value]="etudiant.idPersonne" [id]="'etudiant-' + etudiant.idPersonne" (change)="selectionnerEtudiant(etudiant.idPersonne, $event)">
+                                            <label class="form-check-label" [for]="'etudiant-' + etudiant.idPersonne">
+                                                {{ etudiant.prenom }} {{ etudiant.nom }}
+                                            </label>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
-                            <div class="text-danger mt-2" id="errorMessage" style="display: none;">
-                                Vous devez sélectionner au moins un étudiant.
+
+                            <div class="mt-2" *ngIf="message">
+                                {{ message }}
                             </div>
+
                             <div>
                                 <button type="submit" class="btn btn-success m-3">Valider</button>
-                                <button type="button" class="btn btn-danger m-3" onclick="annulerAction()">Annuler</button>
+                                <button type="button" class="btn btn-danger m-3" (click)="annulerAction()">Annuler</button>
                             </div>
                         </div>
                     </form>
@@ -35,13 +49,15 @@
                     <form action="index.php?module=paneladmin&action=suprimmerProf" class="m-3" method="POST">
                         <div class="d-flex flex-column text-center">
                             <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" id="dropdownButtonProf"
+                                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button"
+                                        id="dropdownButtonProf"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                     Rechercher parmi les professeurs existants
                                 </button>
                                 <div class="dropdown-menu p-3 gap-1" id="dropdownContentProf"
                                      style="max-height: 400px; overflow-y: auto;">
-                                    <input type="text" class="form-control mb-2" id="searchInputProf" placeholder="Rechercher...">
+                                    <input type="text" class="form-control mb-2" id="searchInputProf"
+                                           placeholder="Rechercher...">
                                     <!-- Les éléments de la liste déroulante pour les professeurs existants -->
                                     $profInputs
                                 </div>
@@ -51,7 +67,8 @@
                             </div>
                             <div>
                                 <button type="submit" class="btn btn-success m-3">Valider</button>
-                                <button type="button" class="btn btn-danger m-3" onclick="annulerAction()">Annuler</button>
+                                <button type="button" class="btn btn-danger m-3" onclick="annulerAction()">Annuler
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -63,7 +80,7 @@
                     <ng-container *ngFor="let prof of profs">
                         <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded-3 shadow-sm mb-2">
                             <div class="d-flex align-items-center">
-                                <p class="mb-0">{{prof.nom}}</p>
+                                <p class="mb-0">{{ prof.nom }}</p>
                             </div>
                         </div>
                     </ng-container>
