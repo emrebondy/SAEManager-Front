@@ -14,11 +14,18 @@ import {FormsModule, NgModel} from "@angular/forms";
 export class PanelAdminComponent implements OnInit {
 
   profs: ModelePersonne[] = [];
+  profsFiltres: ModelePersonne[] = [];
+  profSelectionnes: number[] = [];
+  searchInputProf: string = '';
+
   etudiants: ModelePersonne[] = [];
   etudiantsFiltres: ModelePersonne[] = [];
   etudiantsSelectionnes: number[] = [];
-  message: string = '';
-  searchInput: string = '';
+  searchInputEtudiant: string = '';
+
+  messageProf: string = '';
+  messageEtudiant: string = '';
+
 
   constructor(private personneService: PersonneService) {
   }
@@ -32,6 +39,7 @@ export class PanelAdminComponent implements OnInit {
     this.personneService.getProfs().subscribe(
       (response: ModelePersonne[]) => {
         this.profs = response;
+        this.profsFiltres = [...this.profs];
       },
       (error) => {
         console.log(error);
@@ -49,7 +57,7 @@ export class PanelAdminComponent implements OnInit {
   }
 
   filtrerEtudiants() {
-    const searchLower = this.searchInput.toLowerCase();
+    const searchLower = this.searchInputEtudiant.toLowerCase();
     this.etudiantsFiltres = this.etudiants.filter(etudiant =>
         `${etudiant.prenom} ${etudiant.nom}`.toLowerCase().includes(searchLower)
     );
@@ -67,32 +75,91 @@ export class PanelAdminComponent implements OnInit {
   validerSelection() {
 
     if (this.etudiantsSelectionnes.length === 0) {
-      this.message = "Vous devez sélectionner au moins un étudiant.";
+      this.messageEtudiant = "Vous devez sélectionner au moins un étudiant.";
       return;
     }
 
-    this.message = ''; // Réinitialise le message d'erreur
-
     this.personneService.ajouterProfs(this.etudiantsSelectionnes).subscribe({
       next: (response) => {
-        this.message = response;
+        this.messageEtudiant = response;
         setTimeout(() => {
           window.location.reload();
-        }, 2000);
+        }, 4000);
       },
       error: (err) => {
         console.log(err);
-        this.message = "Une erreur s'est produite lors de l'ajout des professeurs.";
+        this.messageEtudiant = "Une erreur s'est produite lors de l'ajout des professeurs.";
       }
     });
   }
 
 
   annulerAction() {
-    this.etudiantsSelectionnes = [];
-    this.message = 'Sélection vidée avec succès';
+    if (this.etudiantsSelectionnes.length === 0) {
+      this.messageEtudiant = "Vous devez sélectionner au moins un étudiant.";
+      return;
+    }
 
-    const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+    this.etudiantsSelectionnes = [];
+    this.messageEtudiant = 'Sélection vidée avec succès';
+
+    const checkboxes = document.querySelectorAll<HTMLInputElement>('.check-etudiant');
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+  }
+
+
+  filtrerProfs() {
+    const searchLower = this.searchInputProf.toLowerCase();
+    this.profsFiltres = this.profs.filter(prof =>
+        `${prof.prenom} ${prof.nom}`.toLowerCase().includes(searchLower)
+    );
+  }
+
+  selectionnerProf(id: number, event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    if (checked) {
+      this.profSelectionnes.push(id);
+    } else {
+      this.profSelectionnes = this.profSelectionnes.filter(profId => profId !== id);
+    }
+  }
+
+  validerSelectionProf() {
+
+    if (this.profSelectionnes.length === 0) {
+      this.messageProf = "Vous devez sélectionner au moins un prof.";
+      return;
+    }
+
+    this.messageProf = ''; // Réinitialise le message d'erreur
+
+    this.personneService.supprimerProfs(this.profSelectionnes).subscribe({
+      next: (response) => {
+        this.messageProf = response;
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      },
+      error: (err) => {
+        console.log(err);
+        this.messageProf = "Une erreur s'est produite lors de la suppression des professeurs.";
+      }
+    });
+  }
+
+
+  annulerActionProf() {
+    if (this.profSelectionnes.length === 0) {
+      this.messageProf = "Vous devez sélectionner au moins un prof.";
+      return;
+    }
+
+    this.profSelectionnes = [];
+    this.messageProf = 'Sélection vidée avec succès';
+
+    const checkboxes = document.querySelectorAll<HTMLInputElement>('.check-prof');
     checkboxes.forEach((checkbox) => {
       checkbox.checked = false;
     });

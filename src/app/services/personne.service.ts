@@ -35,7 +35,13 @@ export class PersonneService {
 
   ajouterProfs(listeIds: number[]): Observable<string> {
     return this.http.put<string>(this.apiUrl + "/prof/ajouterProf", listeIds,
-      {responseType: 'text' as 'json'} // 🔹 Indique qu'on attend une réponse en texte brut
+      {responseType: 'text' as 'json'}
+    );
+  }
+
+  supprimerProfs(listeIds: number[]): Observable<string> {
+    return this.http.put<string>(this.apiUrl + "/prof/supprimerProf", listeIds,
+      {responseType: 'text' as 'json'}
     );
   }
 
