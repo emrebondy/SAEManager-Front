@@ -111,10 +111,19 @@
                     echo <<<HTML -->
 
 
-                    <div class="form-check eleve-item">
-                        <input class="form-check-input" type="checkbox" id="eleve$id" name="eleves[]" value="$id">
-                        <label class="form-check-label" for="eleve$id">$nomPrenom</label>
-                    </div>
+                    <div *ngIf="etudiants.length > 0; else noData">
+                        <div class="form-check eleve-item" *ngFor="let etudiant of etudiants">
+                          <input class="form-check-input" type="checkbox" [value]="etudiant.nom" name="eleves[]">
+                          <label class="form-check-label" [for]="'eleve'">
+                            {{ etudiant.nom }} {{ etudiant.prenom }}
+                          </label>
+                        </div>
+                      </div>
+                      
+                      <!-- Message si aucun étudiant n'est trouvé -->
+                      <ng-template #noData>
+                        <p>Aucun étudiant trouvé.</p>
+                      </ng-template>
 
 <!-- HTML;
                 }
