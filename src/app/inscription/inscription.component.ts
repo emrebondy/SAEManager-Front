@@ -36,16 +36,13 @@ export class InscriptionComponent {
       this.personneService.createPersonne(personne).subscribe(
         response => {
           console.log('Personne créée avec succès', response);
-          // Ajouter ici une redirection ou un message de succès
         },
         error => {
           console.error('Erreur lors de la création de la personne', error);
-          // Gérer les erreurs ici, ex: affichage d'un message d'erreur
         }
       );
     } else {
       console.warn('Le formulaire est invalide');
-      // Ajouter ici un message pour informer l'utilisateur
     }
   }
 

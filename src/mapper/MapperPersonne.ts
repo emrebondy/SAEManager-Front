@@ -8,7 +8,7 @@ import { Mapper } from '../domain/kernel/mapper';
 })
 export class PersonneMapper implements Mapper<EntitiesPersonne, ModelePersonne> {
   
-  // 🔹 Convertit un ModelePersonne (modèle API) en EntitiesPersonne (entité interne)
+  // Convertit un ModelePersonne en EntitiesPersonne
   toEntities(modele: ModelePersonne): EntitiesPersonne {
     return {
       id: modele.id ?? 0,
@@ -19,7 +19,7 @@ export class PersonneMapper implements Mapper<EntitiesPersonne, ModelePersonne> 
     };
   }
 
-  // 🔹 Convertit un EntitiesPersonne (entité interne) en ModelePersonne (modèle API)
+  // Convertit un EntitiesPersonne en ModelePersonne
   toModele(entities: EntitiesPersonne): ModelePersonne {
     return {
       id: entities.id,
@@ -30,12 +30,12 @@ export class PersonneMapper implements Mapper<EntitiesPersonne, ModelePersonne> 
     };
   }
 
-  // 🔹 Convertit une liste de ModelePersonne en liste d'EntitiesPersonne
+  // Convertit une liste de ModelePersonne en liste d'EntitiesPersonne
   toEntitiesList(modele: ModelePersonne[]): EntitiesPersonne[] {
     return modele.map((item) => this.toEntities(item));
   }
 
-  // 🔹 Convertit une liste d'EntitiesPersonne en liste de ModelePersonne
+  // Convertit une liste d'EntitiesPersonne en liste de ModelePersonne
   toModeleList(entities: EntitiesPersonne[]): ModelePersonne[] {
     return entities.map((item) => this.toModele(item));
   }

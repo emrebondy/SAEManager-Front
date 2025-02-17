@@ -34,7 +34,6 @@
                 <label class="form-label fw-bold">Co-responsables</label>
                 <input type="text" class="form-control mb-2" id="searchCoResponsables" placeholder="Rechercher un co-responsable par nom ou prénom">
                 <div class="border p-2 choix-responsable" style="max-height: 150px; overflow-y: auto;" id="coResponsablesList">
-
                     <div *ngIf="professeurs.length > 0; else noData">
                         <div class="form-check prof-item" *ngFor="let professeur of professeurs">
                           <input class="form-check-input" type="checkbox" [value]="professeur.nom" name="prof[]">
