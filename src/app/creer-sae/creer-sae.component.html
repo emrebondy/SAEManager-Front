@@ -34,25 +34,20 @@
                 <label class="form-label fw-bold">Co-responsables</label>
                 <input type="text" class="form-control mb-2" id="searchCoResponsables" placeholder="Rechercher un co-responsable par nom ou prénom">
                 <div class="border p-2 choix-responsable" style="max-height: 150px; overflow-y: auto;" id="coResponsablesList">
-<!-- HTML;
 
+                    <div *ngIf="professeurs.length > 0; else noData">
+                        <div class="form-check prof-item" *ngFor="let professeur of professeurs">
+                          <input class="form-check-input" type="checkbox" [value]="professeur.nom" name="prof[]">
+                          <label class="form-check-label" [for]="'prof'">
+                            {{ professeur.nom }} {{ professeur.prenom }}
+                          </label>
+                        </div>
+                      </div>
+                      
+                      <ng-template #noData>
+                        <p>Aucun professeur trouvé.</p>
+                      </ng-template>
 
-            foreach ($listePersonne as $personne) {
-                if ($personne['estProf']) {
-                    $id = htmlspecialchars($personne['idPersonne']);
-                    $nomPrenom = htmlspecialchars($personne['prenom'] . ' ' . $personne['nom']);
-                    echo <<<HTML -->
-
-
-                    <div class="form-check co-responsable-item">
-                        <input class="form-check-input" type="checkbox" id="coResponsable$id" name="coResponsables[]" value="$id">
-                        <label class="form-check-label" for="coResponsable$id">$nomPrenom</label>
-                    </div>
-<!-- HTML;
-                }
-            }
-
-            echo <<<HTML -->
 
                 </div>
                 <small class="text-muted">Cochez les co-responsables nécessaires. Laissez vide si aucun.</small>
@@ -66,28 +61,18 @@
                 <div class="border p-2" style="max-height: 150px; overflow-y: auto;" id="intervenantsList">
 
 
-<!-- HTML;
-
-
-            foreach ($listePersonne as $personne) {
-                if ($personne['estProf']) {
-                    $id = htmlspecialchars($personne['idPersonne']);
-                    $nomPrenom = htmlspecialchars($personne['prenom'] . ' ' . $personne['nom']);
-                    echo <<<HTML -->
-
-
-                    <div class="form-check intervenant-item">
-                        <input class="form-check-input" type="checkbox" id="intervenant$id" name="intervenants[]" value="$id">
-                        <label class="form-check-label" for="intervenant$id">$nomPrenom</label>
-                    </div>
-
-
-<!-- HTML;
-                }
-            }
-
-            echo <<<HTML -->
-
+                    <div *ngIf="professeurs.length > 0; else noData">
+                        <div class="form-check prof-item" *ngFor="let professeur of professeurs">
+                          <input class="form-check-input" type="checkbox" [value]="professeur.nom" name="prof[]">
+                          <label class="form-check-label" [for]="'prof'">
+                            {{ professeur.nom }} {{ professeur.prenom }}
+                          </label>
+                        </div>
+                      </div>
+                      
+                      <ng-template #noData>
+                        <p>Aucun professeur trouvé.</p>
+                      </ng-template>
 
                 </div>
                 <small class="text-muted">Cochez les intervenants nécessaires. Laissez vide si aucun.</small>
@@ -100,17 +85,6 @@
                 <input type="text" class="form-control mb-2" id="searchEleves" placeholder="Rechercher un élève par nom ou prénom">
                 <div class="border p-2" style="max-height: 150px; overflow-y: auto;" id="elevesList">
 
-
-<!-- HTML;
-
-
-            foreach ($listePersonne as $personne) {
-                if (!($personne['estProf'])) {
-                    $id = htmlspecialchars($personne['idPersonne']);
-                    $nomPrenom = htmlspecialchars($personne['prenom'] . ' ' . $personne['nom']);
-                    echo <<<HTML -->
-
-
                     <div *ngIf="etudiants.length > 0; else noData">
                         <div class="form-check eleve-item" *ngFor="let etudiant of etudiants">
                           <input class="form-check-input" type="checkbox" [value]="etudiant.nom" name="eleves[]">
@@ -119,17 +93,10 @@
                           </label>
                         </div>
                       </div>
-                      
-                      <!-- Message si aucun étudiant n'est trouvé -->
+
                       <ng-template #noData>
                         <p>Aucun étudiant trouvé.</p>
                       </ng-template>
-
-<!-- HTML;
-                }
-            }
-
-            echo <<<HTML -->
 
                 </div>
                 <small class="text-muted">Cochez les élèves nécessaires. Laissez vide si aucun.</small>
