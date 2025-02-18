@@ -17,13 +17,15 @@
 
         <!-- Liste des SAÉs -->
         <div class="sae-list" *ngIf="saes.length > 0">
-            <div *ngFor="let sae of saes" class="sae-card p-3 my-3 bg-light shadow-sm rounded">
-                <h4 class="fw-bold">{{ sae.nomSae }}</h4>
-                <p><strong>Année :</strong> {{ sae.anneeUniversitaire }}</p>
-                <p><strong>Semestre :</strong> {{ sae.semestreUniversitaire }}</p>
-                <p><strong>Sujet :</strong> {{ sae.sujet }}</p>
-                <p><strong>Dernière modification :</strong> {{ sae.dateModificationSujet }}</p>
-            </div>
+                <div *ngFor="let sae of saes" class="px-5 mx-5 my-3">
+                    <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded-3 shadow-sm w-100">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle bg-warning mx-2 w-25px h-25px"></div>
+                        <span class="fw-bold mx-1">{{ sae.nomSae }}</span>
+                    </div>
+                    <a href="#" class="text-primary text-decoration-none">Accéder à la SAE</a>
+                    </div>
+                </div>
         </div>
     </div>
 </div>
