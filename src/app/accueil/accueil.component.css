@@ -1,0 +1,141 @@
+
+#background-desature {
+    position: relative;
+}
+
+#background-desature::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../../assets/images/background.png');
+    background-repeat: repeat;
+    filter: contrast(30%) grayscale(100%) brightness(180%);
+    z-index: -1;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.menu {
+    background-color: #0D1117;
+}
+
+.sous-menu {
+    background-color: #373337;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.icon {
+    fill: white;
+}
+
+/* Home Page */
+
+.card {
+    border: none;
+    border-radius: 0 0 20px 20px;
+    overflow: visible;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-sae {
+    background: #7171FF;
+    
+}
+
+.card-rendus {
+    background: #F1B2FD;
+}
+
+.card-create-sae {
+    background: #B2B2FD;
+}
+.card-soutenance {
+    background: #fdccb2;
+}
+
+.card-ressource {
+    background: #B4FFEA;
+}
+
+.card-sae:hover,
+.card-sae-content:hover,
+.card-rendus:hover,
+.card-soutenance:hover,
+.card-rendus-content:hover,
+.card-create-sae:hover,
+.card-ressources:hover
+.card-ressources-content:hover,
+.card-ressource:hover {
+    transform: scale(1.05);
+}
+
+.w-25px {
+    width: 25px;
+}
+
+.h-25px {
+    height: 25px;
+}
+
+.min-h75 {
+    min-height: 75%;
+}
+
+@media (max-width: 1200px) {
+    .d-flex {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        margin-bottom: 20px;
+        height: 100% !important;
+    }
+
+    .card-sae, .card-create-sae, .card-rendus {
+        height: 20% !important;
+    }
+
+    .card-sae-content, .card-rendus-content{
+        height: 100% !important;
+        width: 50% !important;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .card-sae, .card-create-sae, .card-rendus {
+        height: 30% !important;
+    }
+
+}
+
+@media (max-width: 576px) {
+    .d-flex {
+        padding: 10px;
+    }
+
+    .card {
+        width: auto;
+        margin-bottom: 15px;
+        height: 100% !important;
+    }
+
+    .card-sae, .card-create-sae, .card-rendus {
+        height: 10% !important;
+    }
+
+    .card-sae-content, .card-rendus-content {
+        height: 100% !important;
+        width: 100% !important;
+    }
+}
+
