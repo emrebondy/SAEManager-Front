@@ -49,20 +49,21 @@ export class CreerSAEComponent implements OnInit {
   }
 
   handleSubmit(): void {
+    const now = new Date();
+
         const sae: ModeleSAE = {
           idSAE: 0,
           nomSae: this.saeForm.value.nomSae || '',
-          anneeUniversitaire: "2025",
+          anneeUniversitaire: new Date().getFullYear().toString(),
           semestreUniversitaire: Number(this.saeForm.value.semestre) || 0,
           sujet: this.saeForm.value.sujet || '',
-          dateModificationSujet: new Date().toISOString().split('T')[0],
+          dateModificationSujet: now.toISOString().split('T')[0] + ' ' + now.toTimeString().split(' ')[0],
           idResponsable: 43
         };
 
         console.log("voici le sujet" + this.saeForm.value.sujet)
 
       console.log(sae)
-      //Appel du service pour créer la SAE
       this.creerSaeService.createSae(sae).subscribe(
         response => {
           console.log('SAE créée avec succès', response);

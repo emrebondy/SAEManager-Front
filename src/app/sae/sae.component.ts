@@ -1,6 +1,6 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { ModeleSae } from '../../modele/ModeleSAE';
+import { ModeleSAE } from '../../modele/ModeleSAE';
 
 @Component({
   selector: 'app-sae',
@@ -11,7 +11,7 @@ import { ModeleSae } from '../../modele/ModeleSAE';
 export class SaeComponent {
 
 
-  saes: ModeleSae[] = [];
+  saes: ModeleSAE[] = [];
 
   
 
@@ -19,6 +19,7 @@ export class SaeComponent {
 
   ngOnInit(): void {
     this.saes = [
+    
       {
         idSAE: 1,
         nomSae: "Développement d'une application web pour la gestion d'événements",
@@ -26,9 +27,7 @@ export class SaeComponent {
         semestreUniversitaire: 1,
         sujet: 'Projet de développement',
         dateModificationSujet: '2025-01-15',
-        responsablesSae: [
-          { idResp: 101, sae: { idSAE: 1 } }
-        ]
+        idResponsable: 43
       },
       {
         idSAE: 2,
@@ -37,9 +36,7 @@ export class SaeComponent {
         semestreUniversitaire: 2,
         sujet: 'Analyse de données',
         dateModificationSujet: '2025-02-10',
-        responsablesSae: [
-          { idResp: 102, sae: { idSAE: 2 } }
-        ]
+        idResponsable: 43
       },
       {
         idSAE: 3,
@@ -48,9 +45,7 @@ export class SaeComponent {
         semestreUniversitaire: 1,
         sujet: 'Projet de développement',
         dateModificationSujet: '2025-01-15',
-        responsablesSae: [
-          { idResp: 101, sae: { idSAE: 1 } }
-        ]
+        idResponsable: 43
       },
       {
         idSAE: 4,
@@ -59,9 +54,7 @@ export class SaeComponent {
         semestreUniversitaire: 2,
         sujet: 'Analyse de données',
         dateModificationSujet: '2025-02-10',
-        responsablesSae: [
-          { idResp: 102, sae: { idSAE: 2 } }
-        ]
+        idResponsable: 43
       },
       {
         idSAE: 5,
@@ -70,9 +63,7 @@ export class SaeComponent {
         semestreUniversitaire: 2,
         sujet: 'Analyse de données',
         dateModificationSujet: '2025-02-10',
-        responsablesSae: [
-          { idResp: 102, sae: { idSAE: 2 } }
-        ]
+        idResponsable: 43
       },
       {
         idSAE: 6,
@@ -81,9 +72,7 @@ export class SaeComponent {
         semestreUniversitaire: 1,
         sujet: 'Projet de développement',
         dateModificationSujet: '2025-01-15',
-        responsablesSae: [
-          { idResp: 101, sae: { idSAE: 1 } }
-        ]
+        idResponsable: 43
       },
       {
         idSAE: 7,
@@ -92,9 +81,7 @@ export class SaeComponent {
         semestreUniversitaire: 2,
         sujet: 'Analyse de données',
         dateModificationSujet: '2025-02-10',
-        responsablesSae: [
-          { idResp: 102, sae: { idSAE: 2 } }
-        ]
+        idResponsable: 43
       }
     ];
   }
