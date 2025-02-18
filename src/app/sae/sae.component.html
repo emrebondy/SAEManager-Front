@@ -1,0 +1,31 @@
+<div class="container mt-5 h-100">
+    <h1 class="fw-bold">LISTE DES SAÉ(S)</h1>
+
+    <div class="card-general shadow bg-white rounded min-h75">
+        <div class="d-flex align-items-center p-5 mx-5">
+            <div class="me-3">
+                <svg width="35" height="35">
+                    <use xlink:href="#arrow-icon"></use>
+                </svg>
+            </div>
+
+            <div class="d-flex flex-column">
+                <h3 class="fw-bold">Liste des SAÉs créées manuellement :</h3>
+                <p class="h5" *ngIf="saes.length === 0">Aucune SAE n'a été créée.</p>
+            </div>
+        </div>
+
+        <!-- Liste des SAÉs -->
+        <div class="sae-list" *ngIf="saes.length > 0">
+                <div *ngFor="let sae of saes" class="px-5 mx-5 my-3">
+                    <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded-3 shadow-sm w-100">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle bg-warning mx-2 w-25px h-25px"></div>
+                        <span class="fw-bold mx-1">{{ sae.nomSae }}</span>
+                    </div>
+                    <a href="#" class="text-primary text-decoration-none">Accéder à la SAE</a>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
