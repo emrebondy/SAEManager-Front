@@ -1,7 +1,7 @@
 export interface Mapper<T, U> {
-    toDomain(external: U): T;
-    toExternal(domain: T): U;
-    toDomainList(external: U[]): T[];
-    toExternalList(domain: T[]): U[];
+    toEntities(modele: U): T;
+    toModele(entities: T): U;
+    toEntitiesList(modele: U[]): T[];
+    toModeleList(entities: T[]): U[];
   }
   

@@ -8,31 +8,35 @@ import { Mapper } from '../domain/kernel/mapper';
 })
 export class PersonneMapper implements Mapper<EntitiesPersonne, ModelePersonne> {
 
-  toDomain(external: ModelePersonne): EntitiesPersonne {
+  // Convertit un ModelePersonne en EntitiesPersonne
+  toEntities(modele: ModelePersonne): EntitiesPersonne {
     return {
-      idPersonne: external.idPersonne,
-      nom: external.nom,
-      prenom: external.prenom,
-      email: external.email,
-      password: external.password,
+      idPersonne: modele.idPersonne ?? 0,
+      nom: modele.nom,
+      prenom: modele.prenom,
+      email: modele.email,
+      password: modele.password,
     };
   }
 
-  toExternal(domain: EntitiesPersonne): ModelePersonne {
+  // Convertit un EntitiesPersonne en ModelePersonne
+  toModele(entities: EntitiesPersonne): ModelePersonne {
     return {
-      idPersonne: domain.idPersonne,
-      nom: domain.nom,
-      prenom: domain.prenom,
-      password: domain.password,
-      email: domain.email,
+      idPersonne: entities.idPersonne,
+      nom: entities.nom,
+      prenom: entities.prenom,
+      password: entities.password,
+      email: entities.email,
     };
   }
 
-  toDomainList(external: ModelePersonne[]): EntitiesPersonne[] {
-    return external.map((item) => this.toDomain(item));
+  // Convertit une liste de ModelePersonne en liste d'EntitiesPersonne
+  toEntitiesList(modele: ModelePersonne[]): EntitiesPersonne[] {
+    return modele.map((item) => this.toEntities(item));
   }
 
-  toExternalList(domain: EntitiesPersonne[]): ModelePersonne[] {
-    return domain.map((item) => this.toExternal(item));
+  // Convertit une liste d'EntitiesPersonne en liste de ModelePersonne
+  toModeleList(entities: EntitiesPersonne[]): ModelePersonne[] {
+    return entities.map((item) => this.toModele(item));
   }
 }

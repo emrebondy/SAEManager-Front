@@ -5,31 +5,26 @@ import {EntitiesPersonne} from '../../entities/EntitiesPersonne';
 import {ModelePersonne} from '../../modele/ModelePersonne';
 import {PersonneMapper} from '../../mapper/MapperPersonne';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class PersonneService {
-  private apiUrl = 'http://localhost:8080/personne';  // 🔹 Remplace par l'URL de ton backend
+  private apiUrl = 'http://localhost:8080/personne';
 
   constructor(private http: HttpClient, private mapper: PersonneMapper) {
   }
 
-  // 🔹 Envoyer un formulaire (ModelePersonne) vers le backend
   createPersonne(personne: ModelePersonne): Observable<EntitiesPersonne> {
     console.log(personne)
-    const personneToSend = this.mapper.toDomain(personne); // Convertir en format backend
+    const personneToSend = this.mapper.toEntities(personne);
     return this.http.post<EntitiesPersonne>(this.apiUrl, personneToSend);
   }
 
-  getProfs(): Observable<EntitiesPersonne[]> {
-    return this.http.get<ModelePersonne[]>(this.apiUrl + "/prof").pipe(
-      map((data) => this.mapper.toDomainList(data))
-    );
-  }
 
   getEtudiants(): Observable<EntitiesPersonne[]> {
     return this.http.get<ModelePersonne[]>(this.apiUrl + "/etudiant").pipe(
-      map((data) => this.mapper.toDomainList(data))
+      map((etudiants) => this.mapper.toModeleList(etudiants))
     )
   }
 
@@ -45,6 +40,12 @@ export class PersonneService {
     );
   }
 
+
+  getProfesseurs(): Observable<ModelePersonne[]> {
+    return this.http.get<EntitiesPersonne[]>(`${this.apiUrl}/prof`).pipe(
+      map((professeurs) => professeurs.map((prof) => this.mapper.toModele(prof)))
+    );
+  }
 }
 
 

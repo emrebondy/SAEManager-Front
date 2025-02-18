@@ -36,7 +36,7 @@ export class PanelAdminComponent implements OnInit {
   }
 
   chargerProfs(): void {
-    this.personneService.getProfs().subscribe(
+    this.personneService.getProfesseurs().subscribe(
       (response: ModelePersonne[]) => {
         this.profs = response;
         this.profsFiltres = [...this.profs];
