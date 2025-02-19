@@ -1,4 +1,4 @@
-export interface ModeleSAE {
+export interface EntitiesSAE {
     idSAE: number,
     nomSae: string;
     anneeUniversitaire: string;

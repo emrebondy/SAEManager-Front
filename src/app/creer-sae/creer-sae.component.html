@@ -7,14 +7,14 @@
             </div>
             <h3 class="fw-bold">Champs à remplir :</h3>
         </div>
-        <form action="?module=creerSae&action=submit" method="POST">
+        <form [formGroup]="saeForm" (ngSubmit)="handleSubmit()">
             <div class="mb-3">
                 <label for="nomSae" class="form-label fw-bold">Nom de la SAE</label>
-                <input type="text" class="form-control" id="nomSae" name="nomSae" placeholder="Entrez le nom de la SAE" required>
+                <input type="text" class="form-control" id="nomSae" formControlName="nomSae" placeholder="Entrez le nom de la SAE" required>
             </div>
             <div class="mb-3">
                 <label for="semestre" class="form-label fw-bold">Semestre</label>
-                <select class="form-control" name="semestre" id="semestre" required>
+                <select class="form-control" formControlName="semestre" id="semestre" required>
                     <option disabled selected value="">Choisissez un semestre</option>
                     <option value="1">Semestre 1</option>
                     <option value="2">Semestre 2</option>
@@ -26,7 +26,7 @@
             </div>
             <div class="mb-3">
                 <label for="sujet" class="form-label fw-bold">Sujet</label>
-                <input type="text" class="form-control" id="sujet" name="sujet" placeholder="Entrez le sujet" required>
+                <input type="text" class="form-control" id="sujet" formControlName="sujet" placeholder="Entrez le sujet" required>
             </div>
 
             <!-- Co-responsables -->
