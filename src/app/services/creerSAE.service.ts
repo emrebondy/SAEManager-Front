@@ -19,5 +19,12 @@ export class CreerSAEService {
     return this.http.post<EntitiesSAE>(`${this.apiUrl}/create`, saeToSend);
   }
 
+
+  getAllSae(): Observable<ModeleSAE[]>{
+    return this.http.get<EntitiesSAE[]>(`${this.apiUrl}/list`).pipe(
+      map((saes) => saes.map((sae) => this.mapper.toModele(sae)))
+    );
+  }
+
   
 }

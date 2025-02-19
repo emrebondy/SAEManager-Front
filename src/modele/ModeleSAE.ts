@@ -1,5 +1,5 @@
 export interface ModeleSAE {
-    idSAE: number,
+    idSae: number,
     nomSae: string;
     anneeUniversitaire: string;
     semestreUniversitaire: number;

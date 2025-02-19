@@ -50,7 +50,7 @@ export class CreerSAEComponent implements OnInit {
 
   handleSubmit(): void {
         const sae: ModeleSAE = {
-          idSAE: 0,
+          idSae: 0,
           nomSae: this.saeForm.value.nomSae || '',
           anneeUniversitaire: "2025",
           semestreUniversitaire: Number(this.saeForm.value.semestre) || 0,

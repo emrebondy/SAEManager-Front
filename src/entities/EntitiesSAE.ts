@@ -1,5 +1,5 @@
 export interface EntitiesSAE {
-    idSAE: number,
+    idSae: number,
     nomSae: string;
     anneeUniversitaire: string;
     semestreUniversitaire: number;
