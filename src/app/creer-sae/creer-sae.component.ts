@@ -52,7 +52,7 @@ export class CreerSAEComponent implements OnInit {
     const now = new Date();
 
         const sae: ModeleSAE = {
-          idSAE: 0,
+          idSae: 0,
           nomSae: this.saeForm.value.nomSae || '',
           anneeUniversitaire: new Date().getFullYear().toString(),
           semestreUniversitaire: Number(this.saeForm.value.semestre) || 0,

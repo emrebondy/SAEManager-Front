@@ -11,7 +11,7 @@ export class SAEMapper implements Mapper<EntitiesSAE, ModeleSAE> {
   // Convertit un ModelePersonne en EntitiesPersonne
   toEntities(modele: ModeleSAE): EntitiesSAE {
     return {
-      idSAE: modele.idSAE,
+      idSae: modele.idSae,
       nomSae: modele.nomSae,
       anneeUniversitaire: modele.anneeUniversitaire,
       semestreUniversitaire: modele.semestreUniversitaire,
@@ -24,7 +24,7 @@ export class SAEMapper implements Mapper<EntitiesSAE, ModeleSAE> {
   // Convertit un EntitiesPersonne en ModelePersonne
   toModele(entities: EntitiesSAE): ModeleSAE {
     return {
-      idSAE: entities.idSAE,
+      idSae: entities.idSae,
       nomSae: entities.nomSae,
       anneeUniversitaire: entities.anneeUniversitaire,
       semestreUniversitaire: entities.semestreUniversitaire,
