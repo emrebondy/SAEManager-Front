@@ -1,0 +1,41 @@
+<div class="container mt-5">
+    <h1 class="fw-bold">{{ sae.nomSae }}</h1>
+    <div class="card-general shadow bg-white rounded p-4">
+      <!-- Sujet -->
+      <div class="mb-5">
+        <h3 class="fw-bold d-flex align-items-center">
+            <svg class="me-2" width="25" height="25">
+                <use xlink:href="#arrow-icon"></use>
+            </svg>
+            Sujet
+        </h3>
+      <div class="d-flex align-items-center gap-2">
+        <span class="btn btn-link btn-sm shadow-none p-0 text-decoration-none" id="edit-sujet">Modifier le sujet</span>
+        <form method="POST" action="index.php?module=sae&action=supprimerSujet&id=$idSAE" style="margin: 0;">
+            <button type="submit" class="btn btn-link btn-sm shadow-none p-0 text-decoration-none">Supprimer</button>
+        </form>
+    </div>
+
+    <p class="text-muted">Posté le {{sae.dateModificationSujet}}</p>
+    <p>{{sae.sujet}}</p>
+
+    <!--
+        echo $this->popUpDepot("Rendu", $idSAE);
+        echo $this->popUpDepot("Support", $idSAE);
+        echo $this->popUpSupressionDepot("Rendu", $idSAE);
+        echo $this->popUpSupressionDepot("Support", $idSAE);
+        echo $this->popUpCreateRendu($idSAE);
+        echo $this->popUpModifierRendu($idSAE);
+        echo $this->popUpCreateSoutenance($idSAE, $listeProfSae);
+        echo $this->popUpModifierSoutenance($idSAE);
+        echo $this->popUpCreateChamp($idSAE);
+        echo $this->popUpModifierSujet($idSAE, $sae);
+        echo $this->popUpCreateRessource($idSAE);
+        echo $this->popUpAjouterRessource($idSAE, $ressources, $ressource);
+   
+-->
+
+
+  
+      
+  

@@ -23,7 +23,8 @@
                         <div class="rounded-circle bg-warning mx-2 w-25px h-25px"></div>
                         <span class="fw-bold mx-1">{{ sae.nomSae }}</span>
                     </div>
-                    <a href="#" class="text-primary text-decoration-none">Accéder à la SAE</a>
+                    <a [routerLink]="['/sae', sae.idSae]" class="text-primary text-decoration-none">Accéder à la SAE</a>
+
                     </div>
                 </div>
         </div>
