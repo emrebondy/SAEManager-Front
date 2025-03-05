@@ -26,5 +26,13 @@ export class CreerSAEService {
     );
   }
 
+
+  getSae(id: number): Observable<ModeleSAE> {
+    return this.http.get<EntitiesSAE>(`${this.apiUrl}/${id}`).pipe(
+      map((sae) => this.mapper.toModele(sae))
+    );
+  }
+  
+
   
 }

@@ -1,0 +1,191 @@
+<div class="container mt-5">
+  <h1 class="fw-bold">{{ sae.nomSae }}</h1>
+  <div class="card-general shadow bg-white rounded p-4">
+    <!-- Sujet -->
+    <div class="mb-5">
+      <h3 class="fw-bold d-flex align-items-center">Sujet</h3>
+      <div class="d-flex align-items-center gap-2">
+                <span class="btn btn-link btn-sm shadow-none p-0 text-decoration-none"
+                      id="edit-sujet">Modifier le sujet</span>
+        <form method="POST" action="index.php?module=sae&action=supprimerSujet&id=$idSAE" style="margin: 0;">
+          <button type="submit" class="btn btn-link btn-sm shadow-none p-0 text-decoration-none">Supprimer
+          </button>
+        </form>
+      </div>
+
+      <p class="text-muted">Posté le {{ sae.dateModificationSujet }}</p>
+      <p>{{ sae.sujet }}</p>
+
+    </div>
+
+    <!-- Ressource(s) -->
+    <div class="mb-5">
+      <h3 class="fw-bold d-flex align-items-center">Ressource(s)</h3>
+
+      <!-- Affichage des ressources liées -->
+      <div *ngIf="ressourcesLieesById.length > 0; else noData">
+        <div *ngFor="let ressource of ressourcesLieesById" class="ressource-item">
+          <div class="ressource-content">
+            <span class="ressource-name">{{ ressource.iDRessource }}</span>
+            <div class="ressource-actions">
+              <button class="btn btn-secondary btn-sm" (click)="deleteRessource(ressource.iDRessource)">
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noData>
+        <div class="alert alert-light">Aucune ressource disponible</div>
+      </ng-template>
+
+      <div class="d-flex gap-3 mt-3">
+        <button class="btn btn-primary px-4" (click)="openModal()">Ajouter une ressource</button>
+        <button class="btn btn-primary px-4" (click)="openCreateModal()">Créer une ressource</button>
+
+      </div>
+
+      <div *ngIf="showModal" class="modal-overlay">
+        <div class="modal-content">
+          <h3>Ajouter une ressource</h3>
+          <p>Sélectionner une ressource</p>
+
+          <div *ngFor="let ressource of ressources">
+            <input type="checkbox" (change)="toggleSelection(ressource)"> {{ ressource.nom }}
+          </div>
+
+          <div class="mt-3">
+            <button class="btn btn-success" (click)="validerAjout()">Valider</button>
+            <button class="btn btn-danger" (click)="closeModal()">Annuler</button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showCreateModal" class="modal-overlay">
+        <div class="modal-content">
+          <h3>Déposer une ressource</h3>
+
+          <input type="text" formControlName="nom" placeholder="Nom de la ressource" class="form-control mb-2"
+                 (input)="onNomChanged($event)">
+
+          <div class="drop-zone" (dragover)="allowDrop($event)" (drop)="onDrop($event)">
+            <p>Déposer ou glisser un fichier ici</p>
+            <p class="text-muted">Taille max : 20 Mo</p>
+            <input type="file" (change)="onFileSelected($event)">
+          </div>
+
+          <div class="mt-3">
+            <button class="btn btn-success" (click)="createRessource()">Valider</button>
+            <button class="btn btn-danger" (click)="closeCreateModal()">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rendus -->
+    <div class="mb-5">
+      <h3 class="fw-bold d-flex align-items-center">Rendu(s)</h3>
+      <div class="d-flex flex-column">
+        <div id="rendus-list">
+          <div class="d-flex align-items-center bg-light rounded-3 shadow-sm mb-3 px-3 py-2"
+               *ngFor="let rendu of rendus">
+            <span class="fw-semibold" style="font-size: 1.2rem; flex: 1;">{{ rendu.nom }}</span>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary mt-3" (click)="openModalRendu()">Créer un rendu</button>
+    </div>
+
+    <app-modal-rendu [showModalRendu]="showModalRendu" [idSAE]="saeId"
+                     (modalClose)="closeModalRendu($event)"></app-modal-rendu>
+
+    <!-- Groupes -->
+
+    <div class="mb-5">
+      <h3 class="fw-bold d-flex align-items-center">Groupes</h3>
+
+      <div class="d-flex flex-column">
+        <div class="align-items-center p-3 bg-light rounded-3 shadow-sm mb-2">
+          <div *ngIf="groupeCreeMessage" class="alert alert-success mt-3">
+            {{ groupeCreeMessage }}
+          </div>
+
+          <h1 class="my-4">Sélectionnez les élèves</h1>
+          <div class="align-items-center p-3 bg-light rounded-3 shadow-sm mb-2">
+            <form #groupForm="ngForm" (ngSubmit)="createGroup()">
+              <div id="etudiants-container">
+                <div class="etudiant-container mb-3 w-25">
+                  <input type="text" [(ngModel)]="nomGroupe" name="nomGroupe"
+                         class="form-control mb-3 w-75" placeholder="Entrez le nom du groupe"
+                         required>
+
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle w-75" type="button"
+                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                      Sélectionner les étudiants
+                    </button>
+                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
+                      <li *ngIf="etudiantsDispoGroupe.length === 0">
+                        <div class="dropdown-item text-danger">
+                          Aucun étudiant disponible
+                        </div>
+                      </li>
+
+                      <li *ngFor="let etudiant of etudiantsDispoGroupe">
+                        <div class="dropdown-item">
+                          <input type="checkbox" [checked]="isChecked(etudiant.idPersonne)"
+                                 (change)="onCheckboxChange($event, etudiant)">
+                          {{ etudiant.nom }} {{ etudiant.prenom }}
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+
+
+                  <div class="mt-3">
+                    <h5>Étudiants sélectionnés :</h5>
+                    <ul *ngIf="etudiantsSelectionnees.length > 0; else noStudents">
+                      <li *ngFor="let etudiant of etudiantsSelectionnees">
+                        {{ etudiant.nom }} {{ etudiant.prenom }}
+                      </li>
+                    </ul>
+                    <ng-template #noStudents>
+                      <p style="color: #ff6347;">Aucun étudiant sélectionné</p>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-check my-3">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  [checked]="estModifiableParEleve"
+                  (change)="onCheckboxModifialbeChange($event)"
+                  id="editableGroup"
+                >
+                <label class="form-check-label" for="editableGroup">
+                  Permettre aux membres de modifier le nom et la photo du groupe
+                </label>
+              </div>
+
+
+              <div class="d-flex">
+                <button type="submit" class="btn btn-primary" [disabled]="!groupForm.valid">Créer le
+                  groupe
+                </button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
+

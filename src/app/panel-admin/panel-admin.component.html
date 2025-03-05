@@ -1,113 +1,126 @@
 <div class="container mt-5 h-100">
-    <h1 class="fw-bold">PANEL ADMIN</h1>
-    <div class="card-general shadow bg-white rounded">
-        <div class="d-flex flex-column">
-            <div class="d-flex flex-row h-50 m-3 p-3 w-100">
+  <h1 class="fw-bold">PANEL ADMIN</h1>
+  <div class="card-general shadow bg-white rounded">
+    <div class="d-flex flex-column">
+      <div class="d-flex flex-row h-50 m-3 p-3 w-100">
 
-                <div class="d-flex flex-column m-3 bg-light border rounded w-50">
-                    <h3 class="m-3 fw-bold">Ajoutez une ou des personnes en tant que professeur</h3>
+        <div class="d-flex flex-column m-3 bg-light border rounded w-50">
+          <h3 class="m-3 fw-bold">Ajoutez une ou des personnes en tant que professeur</h3>
 
-                    <form (submit)="validerSelection()" class="m-3">
-                        <div class="d-flex flex-column text-center">
-                            <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button"
-                                        id="dropdownButton"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                    Rechercher des personnes non professeurs
-                                </button>
+          <form (submit)="validerSelection()" class="m-3">
+            <div class="d-flex flex-column text-center">
+              <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button"
+                        id="dropdownButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                  Rechercher des personnes non professeurs
+                </button>
 
-                                <div class="dropdown-menu p-3 gap-1 w-100" id="dropdownContent"
-                                     style="max-height: 400px; overflow-y: auto;">
-                                    <input type="text" class="form-control mb-2" [(ngModel)]="searchInputEtudiant"
-                                           name="searchInput" (input)="filtrerEtudiants()" placeholder="Rechercher...">
+                <div class="dropdown-menu p-3 gap-1 w-100" id="dropdownContent"
+                     style="max-height: 400px; overflow-y: auto;">
+                  <input type="text" class="form-control mb-2" [(ngModel)]="searchInputEtudiant"
+                         name="searchInput" (input)="filtrerEtudiants()" placeholder="Rechercher...">
 
-                                    <!-- Liste des étudiants filtrés -->
-                                    <ng-container *ngFor="let etudiant of etudiantsFiltres">
-                                        <div class="form-check personnes dropdown-item">
-                                            <input class="form-check-input check-etudiant" type="checkbox"
-                                                   [value]="etudiant.idPersonne"
-                                                   [id]="'etudiant-' + etudiant.idPersonne"
-                                                   (change)="selectionnerEtudiant(etudiant.idPersonne, $event)">
-                                            <label class="form-check-label" [for]="'etudiant-' + etudiant.idPersonne">
-                                                {{ etudiant.prenom }} {{ etudiant.nom }}
-                                            </label>
-                                        </div>
-                                    </ng-container>
-                                </div>
-                            </div>
-
-                            <div class="mt-2" *ngIf="messageEtudiant">
-                                {{ messageEtudiant }}
-                            </div>
-
-                            <div>
-                                <button type="submit" class="btn btn-success m-3">Valider</button>
-                                <button type="button" class="btn btn-danger m-3" (click)="annulerAction()">Annuler
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                  <!-- Liste des étudiants filtrés -->
+                  <ng-container *ngFor="let etudiant of etudiantsFiltres">
+                    <div class="form-check personnes dropdown-item">
+                      <input class="form-check-input check-etudiant" type="checkbox"
+                             [value]="etudiant.idPersonne"
+                             [id]="'etudiant-' + etudiant.idPersonne"
+                             (change)="selectionnerEtudiant(etudiant.idPersonne, $event)">
+                      <label class="form-check-label" [for]="'etudiant-' + etudiant.idPersonne">
+                        {{ etudiant.prenom }} {{ etudiant.nom }}
+                      </label>
+                    </div>
+                  </ng-container>
                 </div>
+              </div>
 
-                <div class="d-flex flex-column m-3 bg-light border rounded w-50">
-                    <h3 class="m-3 fw-bold">Supprimer un ou des professeurs déjà existants</h3>
+              <div *ngIf="etudiantsSelectionnes.length > 0" class="mt-3">
+                <h4 class="fw-bold">Étudiants sélectionnés :</h4>
+                <ul *ngFor="let etudiantId of etudiantsSelectionnes">
+                  {{ getEtudiantById(etudiantId)?.prenom }} {{ getEtudiantById(etudiantId)?.nom }}
+                </ul>
+              </div>
 
-                    <form (submit)="validerSelectionProf()" class="m-3">
-                        <div class="d-flex flex-column text-center">
-                            <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button"
-                                        id="dropdownButtonProf"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                    Rechercher parmi les professeurs existants
-                                </button>
+              <div class="mt-2" *ngIf="messageEtudiant">
+                {{ messageEtudiant }}
+              </div>
 
-                                <div class="dropdown-menu p-3 gap-1" id="dropdownContentProf"
-                                     style="max-height: 400px; overflow-y: auto;">
-                                    <input type="text" class="form-control mb-2" [(ngModel)]="searchInputProf"
-                                           name="searchInputProf" (input)="filtrerProfs()" placeholder="Rechercher...">
-
-                                    <!-- Les éléments de la liste déroulante pour les professeurs existants -->
-                                    <ng-container *ngFor="let prof of profs">
-                                        <div class="form-check professeurs dropdown-item">
-                                            <input class="form-check-input check-prof" type="checkbox"
-                                                   [value]="prof.idPersonne"
-                                                   [id]="'prof-' + prof.idPersonne"
-                                                   (change)="selectionnerProf(prof.idPersonne, $event)">
-                                            <label class="form-check-label" [for]="'prof_' + prof.idPersonne">
-                                                {{ prof.prenom }} {{ prof.nom }}
-                                            </label>
-                                        </div>
-                                    </ng-container>
-                                </div>
-                            </div>
-
-                            <div class="mt-2" *ngIf="messageProf">
-                                {{ messageProf }}
-                            </div>
-
-                            <div>
-                                <button type="submit" class="btn btn-success m-3">Valider</button>
-                                <button type="button" class="btn btn-danger m-3" (click)="annulerActionProf()">Annuler
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
-                </div>
+              <div>
+                <button type="submit" class="btn btn-success m-3">Valider</button>
+                <button type="button" class="btn btn-danger m-3" (click)="annulerAction()">Annuler
+                </button>
+              </div>
             </div>
-            <div class="d-flex flex-column m-3 bg-light border rounded overflow-auto p-3">
-                <h3 class="m-3 fw-bold">Liste des professeurs existants</h3>
-                <div class="d-flex flex-column overflow-auto" style="max-height: 300px;">
-                    <ng-container *ngFor="let prof of profs">
-                        <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded-3 shadow-sm mb-2">
-                            <div class="d-flex align-items-center">
-                                <p class="mb-0">{{ prof.nom }}</p>
-                            </div>
-                        </div>
-                    </ng-container>
-                </div>
-            </div>
+          </form>
         </div>
+
+        <div class="d-flex flex-column m-3 bg-light border rounded w-50">
+          <h3 class="m-3 fw-bold">Supprimer un ou des professeurs déjà existants</h3>
+
+          <form (submit)="validerSelectionProf()" class="m-3">
+            <div class="d-flex flex-column text-center">
+              <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button"
+                        id="dropdownButtonProf"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                  Rechercher parmi les professeurs existants
+                </button>
+
+                <div class="dropdown-menu p-3 gap-1" id="dropdownContentProf"
+                     style="max-height: 400px; overflow-y: auto;">
+                  <input type="text" class="form-control mb-2" [(ngModel)]="searchInputProf"
+                         name="searchInputProf" (input)="filtrerProfs()" placeholder="Rechercher...">
+
+                  <ng-container *ngFor="let prof of profsFiltres">
+                    <div class="form-check professeurs dropdown-item">
+                      <input class="form-check-input check-prof" type="checkbox"
+                             [value]="prof.idPersonne"
+                             [id]="'prof-' + prof.idPersonne"
+                             (change)="selectionnerProf(prof.idPersonne, $event)">
+                      <label class="form-check-label " [for]="'prof_' + prof.idPersonne">
+                        {{ prof.prenom }} {{ prof.nom }}
+                      </label>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+
+              <div *ngIf="profSelectionnes.length > 0" class="mt-3">
+                <h4 class="fw-bold">Profs sélectionnés :</h4>
+                <ul *ngFor="let profId of profSelectionnes">
+                  {{ getProfById(profId)?.prenom }} {{ getProfById(profId)?.nom }}
+                </ul>
+              </div>
+
+              <div class="mt-2" *ngIf="messageProf">
+                {{ messageProf }}
+              </div>
+
+              <div>
+                <button type="submit" class="btn btn-success m-3">Valider</button>
+                <button type="button" class="btn btn-danger m-3" (click)="annulerActionProf()">Annuler
+                </button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+      <div class="d-flex flex-column m-3 bg-light border rounded overflow-auto p-3">
+        <h3 class="m-3 fw-bold">Liste des professeurs existants</h3>
+        <div class="d-flex flex-column overflow-auto" style="max-height: 300px;">
+          <ng-container *ngFor="let prof of profs">
+            <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded-3 shadow-sm mb-2">
+              <div class="d-flex align-items-center">
+                <p class="mb-0">{{ prof.nom }} {{ prof.prenom }}</p>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 

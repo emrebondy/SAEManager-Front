@@ -59,7 +59,7 @@ export class PanelAdminComponent implements OnInit {
   filtrerEtudiants() {
     const searchLower = this.searchInputEtudiant.toLowerCase();
     this.etudiantsFiltres = this.etudiants.filter(etudiant =>
-        `${etudiant.prenom} ${etudiant.nom}`.toLowerCase().includes(searchLower)
+      `${etudiant.prenom} ${etudiant.nom}`.toLowerCase().includes(searchLower)
     );
   }
 
@@ -113,7 +113,7 @@ export class PanelAdminComponent implements OnInit {
   filtrerProfs() {
     const searchLower = this.searchInputProf.toLowerCase();
     this.profsFiltres = this.profs.filter(prof =>
-        `${prof.prenom} ${prof.nom}`.toLowerCase().includes(searchLower)
+      `${prof.prenom} ${prof.nom}`.toLowerCase().includes(searchLower)
     );
   }
 
@@ -164,6 +164,15 @@ export class PanelAdminComponent implements OnInit {
       checkbox.checked = false;
     });
   }
+
+  getEtudiantById(id: number): ModelePersonne | undefined {
+    return this.etudiants.find(etudiant => etudiant.idPersonne === id);
+  }
+
+  getProfById(id: number): ModelePersonne | undefined {
+    return this.profs.find(prof => prof.idPersonne === id);
+  }
+
 
 }
 
