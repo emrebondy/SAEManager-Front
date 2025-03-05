@@ -16,7 +16,7 @@ import {NgClass, NgIf} from '@angular/common';
   styleUrls: ['./modal-rendu.component.css']
 })
 export class ModalRenduComponent implements OnChanges{
-  @Input() showModal: boolean = false;
+  @Input() showModalRendu: boolean = false;
   @Input() idSAE: number = 0;
   @Output() modalClose = new EventEmitter<boolean>();
 
