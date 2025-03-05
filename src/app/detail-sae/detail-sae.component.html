@@ -19,23 +19,67 @@
     <p class="text-muted">Posté le {{sae.dateModificationSujet}}</p>
     <p>{{sae.sujet}}</p>
 
-    <!--
-        echo $this->popUpDepot("Rendu", $idSAE);
-        echo $this->popUpDepot("Support", $idSAE);
-        echo $this->popUpSupressionDepot("Rendu", $idSAE);
-        echo $this->popUpSupressionDepot("Support", $idSAE);
-        echo $this->popUpCreateRendu($idSAE);
-        echo $this->popUpModifierRendu($idSAE);
-        echo $this->popUpCreateSoutenance($idSAE, $listeProfSae);
-        echo $this->popUpModifierSoutenance($idSAE);
-        echo $this->popUpCreateChamp($idSAE);
-        echo $this->popUpModifierSujet($idSAE, $sae);
-        echo $this->popUpCreateRessource($idSAE);
-        echo $this->popUpAjouterRessource($idSAE, $ressources, $ressource);
-   
--->
 
+ <!-- Ressource(s) -->
+ <div class="container mt-4">
+  <h2 class="fw-bold d-flex align-items-center">Ressource(s)</h2>
 
-  
-      
-  
+  <!-- Affichage des ressources liées -->
+  <div *ngIf="ressourcesLieesById.length > 0; else noData">
+    <div *ngFor="let ressource of ressourcesLieesById" class="ressource-item">
+      <div class="ressource-content">
+        <span class="ressource-name">{{ ressource.iDRessource }}</span>
+        <div class="ressource-actions">
+          <button class="btn btn-secondary btn-sm" (click)="deleteRessource(ressource.iDRessource)">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noData>
+    <div class="alert alert-light">Aucune ressource disponible</div>
+  </ng-template>
+
+  <div class="d-flex gap-3 mt-3">
+    <button class="btn btn-primary px-4" (click)="openModal()">Ajouter une ressource</button>
+    <button class="btn btn-primary px-4" (click)="openCreateModal()">Créer une ressource</button>
+
+  </div>
+
+  <div *ngIf="showModal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Ajouter une ressource</h3>
+      <p>Sélectionner une ressource</p>
+
+      <div *ngFor="let ressource of ressources">
+        <input type="checkbox" (change)="toggleSelection(ressource)"> {{ ressource.nom }}
+      </div>
+
+      <div class="mt-3">
+        <button class="btn btn-success" (click)="validerAjout()">Valider</button>
+        <button class="btn btn-danger" (click)="closeModal()">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showCreateModal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Déposer une ressource</h3>
+
+      <input type="text" formControlName="nom" placeholder="Nom de la ressource" class="form-control mb-2"
+      (input)="onNomChanged($event)">
+
+      <div class="drop-zone" (dragover)="allowDrop($event)" (drop)="onDrop($event)">
+        <p>Déposer ou glisser un fichier ici</p>
+        <p class="text-muted">Taille max : 20 Mo</p>
+        <input type="file" (change)="onFileSelected($event)">
+      </div>
+
+      <div class="mt-3">
+        <button class="btn btn-success" (click)="createRessource()">Valider</button>
+        <button class="btn btn-danger" (click)="closeCreateModal()">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
+
