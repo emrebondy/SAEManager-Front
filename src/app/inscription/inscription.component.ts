@@ -1,19 +1,15 @@
-// inscription.component.ts
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-inscription',
+  templateUrl: './inscription.component.html',
   standalone: true,
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule
+    ReactiveFormsModule
   ],
-  templateUrl: './inscription.component.html',
   styleUrls: ['./inscription.component.css']
 })
 export class InscriptionComponent implements OnInit {
@@ -27,6 +23,11 @@ export class InscriptionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Supprimer le token existant si présent (ou vérifier s'il est expiré)
+    if (this.authService.getToken()) {
+      this.authService.logout();
+    }
+
     this.accountCreationForm = this.fb.group({
       lastname: ['', Validators.required],
       firstname: ['', Validators.required],
@@ -36,39 +37,38 @@ export class InscriptionComponent implements OnInit {
     });
   }
 
+
   handleSubmit(): void {
     if (this.accountCreationForm.invalid) {
       return;
     }
 
     const formData = this.accountCreationForm.value;
-    const fullEmail = `${formData.email}@iut.univ-paris8.fr`;
+    // Concaténer le domaine fixe à la partie email saisie
+    const fullEmail = formData.email + "@iut.univ-paris8.fr";
 
-    const user = {
-      lastname: formData.lastname,
-      firstname: formData.firstname,
+    // Construire l'objet d'inscription attendu par le back-end
+    const registrationData = {
+      nom: formData.lastname,
+      prenom: formData.firstname,
       email: fullEmail,
-      username: formData.username,
+      login: formData.username, // L'utilisateur choisit son identifiant
       password: formData.password
+      // On ne transmet pas estAdmin/estProf, la logique côté back fixera ces valeurs (étudiant par défaut)
     };
 
-    this.authService.register(user).subscribe({
-      next: (res) => {
-        // Si l'inscription réussit, on tente la connexion automatique.
-        this.authService.login({ username: user.username, password: user.password }).subscribe({
-          next: (loginRes: any) => {
-            this.authService.saveToken(loginRes.token);
-            this.router.navigate(['/etudiant/home']); // par exemple
-          },
-          error: (loginErr) => {
-            console.error('Erreur lors du login auto :', loginErr);
-            this.errorMessage = 'Erreur lors de la connexion automatique.';
-          }
-        });
+    // Appel à l'endpoint d'inscription
+    this.authService.inscrirePersonne(registrationData).subscribe({
+      next: (response: any) => {
+        // La réponse devrait contenir la personne inscrite et un token JWT
+        // Par exemple : { personne: { ... }, token: "eyJhbGciOi...", type: "Bearer" }
+        this.authService.saveToken(response.token);
+        // Rediriger vers la page d'accueil (par exemple '/Accueil')
+        this.router.navigate(['/Accueil']);
       },
-      error: (err) => {
-        console.error('Erreur inscription :', err);
-        this.errorMessage = err.error || 'Erreur lors de l’inscription.';
+      error: (error: any) => {
+        console.error("Erreur lors de l'inscription", error);
+        this.errorMessage = error.error || "Erreur lors de l'inscription.";
       }
     });
   }

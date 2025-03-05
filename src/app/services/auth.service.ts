@@ -25,6 +25,12 @@ export class AuthService {
     }
   }
 
+  inscrirePersonne(registrationData: any): Observable<any> {
+    // Adaptez l'URL en fonction de votre configuration
+    return this.http.post<any>('http://localhost:8080/personne/inscription', registrationData);
+  }
+
+
   // Méthode pour s'inscrire : envoie un POST vers /api/auth/register
   register(user: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/register`, user);
