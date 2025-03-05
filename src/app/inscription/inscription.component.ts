@@ -10,6 +10,7 @@ import { PersonneMapper } from '../../mapper/MapperPersonne';
   selector: 'app-inscription',
   imports: [ReactiveFormsModule],
   templateUrl: './inscription.component.html',
+  standalone: true,
   styleUrl: './inscription.component.css'
 })
 export class InscriptionComponent {
