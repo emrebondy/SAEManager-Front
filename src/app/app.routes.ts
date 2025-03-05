@@ -8,7 +8,11 @@ import {AdminGuard} from './services/admin.guard';
 
 
 export const routes: Routes = [
-    {path: '', component: InscriptionComponent},
+    {
+      path: 'inscription',
+      loadComponent: () =>
+        import('./inscription/inscription.component').then(m => m.InscriptionComponent)
+    },
     {path: 'Accueil', component: AccueilComponent},
     {path:'CreerSAE', component: CreerSAEComponent},
     {path:'SAE', component: SaeComponent},

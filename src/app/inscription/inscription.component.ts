@@ -1,51 +1,75 @@
-import { Component } from '@angular/core';
-import { PersonneService } from '../services/personne.service';
-import { ModelePersonne } from '../../modele/ModelePersonne';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { PersonneMapper } from '../../mapper/MapperPersonne';
+// inscription.component.ts
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-inscription',
-  imports: [ReactiveFormsModule],
-  templateUrl: './inscription.component.html',
   standalone: true,
-  styleUrl: './inscription.component.css'
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule
+  ],
+  templateUrl: './inscription.component.html',
+  styleUrls: ['./inscription.component.css']
 })
-export class InscriptionComponent {
+export class InscriptionComponent implements OnInit {
+  accountCreationForm!: FormGroup;
+  errorMessage: string = '';
 
-  accountCreationForm = new FormGroup({
-    lastname : new FormControl(''),
-    firstname : new FormControl(''),
-    password : new FormControl(''),
-    email : new FormControl(''),
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  })
-
-  constructor(private personneService: PersonneService){}
-
-  handleSubmit(){
-    if (this.accountCreationForm.valid) {
-      const personne: ModelePersonne = {
-        idPersonne: 0,
-        nom: this.accountCreationForm.value.lastname || '',
-        prenom: this.accountCreationForm.value.firstname || '',
-        password: this.accountCreationForm.value.password || '',
-        email: this.accountCreationForm.value.email + '@iut.univ-paris8.fr' || ''
-      };
-
-      this.personneService.createPersonne(personne).subscribe(
-        response => {
-          console.log('Personne créée avec succès', response);
-        },
-        error => {
-          console.error('Erreur lors de la création de la personne', error);
-        }
-      );
-    } else {
-      console.warn('Le formulaire est invalide');
-    }
+  ngOnInit(): void {
+    this.accountCreationForm = this.fb.group({
+      lastname: ['', Validators.required],
+      firstname: ['', Validators.required],
+      email: ['', Validators.required],
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
+  handleSubmit(): void {
+    if (this.accountCreationForm.invalid) {
+      return;
+    }
+
+    const formData = this.accountCreationForm.value;
+    const fullEmail = `${formData.email}@iut.univ-paris8.fr`;
+
+    const user = {
+      lastname: formData.lastname,
+      firstname: formData.firstname,
+      email: fullEmail,
+      username: formData.username,
+      password: formData.password
+    };
+
+    this.authService.register(user).subscribe({
+      next: (res) => {
+        // Si l'inscription réussit, on tente la connexion automatique.
+        this.authService.login({ username: user.username, password: user.password }).subscribe({
+          next: (loginRes: any) => {
+            this.authService.saveToken(loginRes.token);
+            this.router.navigate(['/etudiant/home']); // par exemple
+          },
+          error: (loginErr) => {
+            console.error('Erreur lors du login auto :', loginErr);
+            this.errorMessage = 'Erreur lors de la connexion automatique.';
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Erreur inscription :', err);
+        this.errorMessage = err.error || 'Erreur lors de l’inscription.';
+      }
+    });
+  }
 }

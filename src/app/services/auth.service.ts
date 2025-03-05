@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import * as jwt_decode from 'jwt-decode'; // Import modifié
+import {HttpClient} from '@angular/common/http';
 
 export interface JwtToken {
   sub: string;
@@ -13,13 +14,25 @@ export interface JwtToken {
 })
 export class AuthService {
   private tokenKey = 'token';
+  private baseUrl = 'http://localhost:8080/api/auth'; // Adapte l'URL à ton backend
   private roleSubject = new BehaviorSubject<string | null>(null);
 
-  constructor() {
+  constructor(private http: HttpClient) {
     const token = this.getToken();
     if (token) {
-      this.setRoleFromToken(token);
+      // Recharge le token pour mettre à jour le roleSubject
+      this.saveToken(token);
     }
+  }
+
+  // Méthode pour s'inscrire : envoie un POST vers /api/auth/register
+  register(user: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/register`, user);
+  }
+
+  // Méthode de connexion
+  login(credentials: { username: string; password: string }): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/login`, credentials);
   }
 
   getToken(): string | null {
