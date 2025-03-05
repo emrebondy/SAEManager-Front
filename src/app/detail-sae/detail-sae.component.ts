@@ -9,10 +9,15 @@ import {FormsModule, NgModel} from '@angular/forms';
 import {GroupeService} from '../services/groupe.service';
 import {ModeleGroupe} from '../../modele/ModeleGroupe';
 import {EntitiesGroupe} from '../../entities/EntitiesGroupe';
+import {RenduService} from '../services/rendu.service';
+import {ModeleRendu} from '../../modele/ModeleRendu';
+import bootstrap from 'bootstrap';
+import {ModeleEvaluation} from "../../modele/ModeleEvaluation";
+import {ModalRenduComponent} from "../modal-rendu/modal-rendu.component";
 
 @Component({
   selector: 'app-detail-sae',
-  imports: [NgFor, NgIf, FormsModule],
+  imports: [NgFor, NgIf, FormsModule, ModalRenduComponent],
   templateUrl: './detail-sae.component.html',
   standalone: true,
   styleUrl: './detail-sae.component.css'
@@ -37,9 +42,15 @@ export class DetailSaeComponent implements OnInit {
   estModifiableParEleve: boolean = false;
   groupeCreeMessage: string = '';
 
+  rendus: ModeleRendu[] = [];
+
+  showModal: boolean = false;
+
+
   constructor(private route: ActivatedRoute, private saeService: CreerSAEService,
               private personneService: PersonneService,
-              private groupeService: GroupeService) {
+              private groupeService: GroupeService,
+              private renduService: RenduService,) {
   }
 
   ngOnInit(): void {
@@ -59,6 +70,7 @@ export class DetailSaeComponent implements OnInit {
     }
 
     this.chargerEtudiantDispoGroupe();
+    this.chargerRendus()
 
   }
 
@@ -124,10 +136,27 @@ export class DetailSaeComponent implements OnInit {
       },
       error: (error) => {
         console.error('Erreur lors de la création du groupe', error);
-        this.groupeCreeMessage = 'Erreur lors de la création du groupe. Veuillez réessayer.';
+        this.groupeCreeMessage = 'Erreur lors de la création du groupe.';
       }
     });
   }
 
+  chargerRendus() {
+    this.renduService.getRenduSae(this.saeId).subscribe({
+      next: (data) => {
+        this.rendus = data;
+      },
+      error: (err) => {
+        console.error('Erreur')
+      }
+    });
+  }
 
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal(event: boolean) {
+    this.showModal = event;
+  }
 }

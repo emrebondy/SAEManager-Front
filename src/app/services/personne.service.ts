@@ -42,7 +42,7 @@ export class PersonneService {
 
 
   getProfesseurs(): Observable<ModelePersonne[]> {
-    return this.http.get<EntitiesPersonne[]>(`${this.apiUrl}/prof`).pipe(
+    return this.http.get<ModelePersonne[]>(`${this.apiUrl}/prof`).pipe(
       map((professeurs) => this.mapper.toModeleList(professeurs))
     );
   }
